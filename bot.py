@@ -11,6 +11,7 @@ from webdriver_manager.firefox import GeckoDriverManager
 class Bot:
     def __init__(self):
         self.maestro = BotMaestroSDK.from_sys_args()
+        self.maestro.RAISE_NOT_CONNECTED = False
         self.execution = self.maestro.get_execution()
         self.parameters = self.maestro.get_task(task_id=self.execution.task_id).parameters
         self.tmp_folder = tempfile.TemporaryDirectory()
@@ -52,10 +53,10 @@ class Bot:
         try:
             self.create_log()
             self.bot.navigate_to("https://botcity.dev")
-            # if self.execution.parameters.get("execute_error", "") == "yes":
-            element = self.bot.find_element(selector="/html/body/div[4]/div/div/div/div[1]/div/div[2]/a", by=By.XPATH)
-            if not element:
-                raise RuntimeError("Could not find the element.")
+            if self.execution.parameters.get("execute_error", "") == "yes":
+                element = self.bot.find_element(selector="/html/body/div[4]/div/div/div/div[1]/div/div[2]/a", by=By.XPATH)
+                if not element:
+                    raise RuntimeError("Could not find the element.")
             self.maestro.new_log_entry(
                 activity_label="meetup-management-automation",
                 values={
