@@ -1,11 +1,10 @@
-import shutil
 import tempfile
 from uuid import uuid4
 
-from botcity.maestro import BotMaestroSDK, AlertType, AutomationTaskFinishStatus, Column
+from botcity.maestro import BotMaestroSDK, AutomationTaskFinishStatus, Column
 from datetime import datetime
 from botcity.plugins.recorder import BotRecorderPlugin
-from botcity.web import WebBot, Browser
+from botcity.web import WebBot, Browser, By
 from webdriver_manager.firefox import GeckoDriverManager
 
 
@@ -50,6 +49,10 @@ class Bot:
         status = AutomationTaskFinishStatus.SUCCESS
         try:
             self.create_log()
+            if self.execution.parameters.get("execute_error", "") == "yes":
+                element = self.bot.find_element(selector="/html/body/div[4]/div/div/div/div[1]/div/div[2]/a", by=By.XPATH)
+                if not element:
+                    raise RuntimeError("Could not find the element.")
             self.maestro.new_log_entry(
                 activity_label="meetup-management-automation",
                 values={
@@ -70,6 +73,15 @@ class Bot:
                 screenshot=self.screenshot_filepath,
                 exception=error,
                 attachments=[self.filepath]
+            )
+            self.maestro.new_log_entry(
+                activity_label="meetup-management-automation",
+                values={
+                    "id": str(uuid4()),
+                    "timestamp": datetime.now().strftime("%Y-%m-%d_%H-%M"),
+                    "status": "ERROR",
+                    "message": "O processo foi concluído com erro técnico."
+                }
             )
         finally:
             recorder.stop()
