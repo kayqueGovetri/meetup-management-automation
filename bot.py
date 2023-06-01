@@ -43,6 +43,7 @@ class Bot:
             print(error)
 
     def start(self):
+        self.bot.start_browser()
         recorder = BotRecorderPlugin(bot=self.bot, output_file=self.filepath)
         message = "Execution took place without technical failures " \
                   "(search failures could be seen in the errors and alerts section.)"
@@ -50,6 +51,7 @@ class Bot:
         recorder.start()
         try:
             self.create_log()
+            self.bot.navigate_to("https://botcity.dev")
             # if self.execution.parameters.get("execute_error", "") == "yes":
             element = self.bot.find_element(selector="/html/body/div[4]/div/div/div/div[1]/div/div[2]/a", by=By.XPATH)
             if not element:
@@ -63,7 +65,6 @@ class Bot:
                     "message": "O processo foi concluído com sucesso"
                 }
             )
-            self.bot.navigate_to("https://botcity.dev")
             self.bot.sleep(5000)
         except Exception as error:
             message = "Error executing the automation, please check the errors section"
