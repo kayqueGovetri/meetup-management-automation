@@ -70,6 +70,7 @@ class Bot:
             message = "Error executing the automation, please check the errors section"
             status = AutomationTaskFinishStatus.FAILED
             self.bot.screenshot(self.screenshot_filepath)
+            recorder.stop()
             self.maestro.error(
                 task_id=self.execution.task_id,
                 screenshot=self.screenshot_filepath,
@@ -86,7 +87,8 @@ class Bot:
                 }
             )
         finally:
-            recorder.stop()
+            if recorder.state != "stopped":
+                recorder.stop()
             self.bot.stop_browser()
             self.maestro.finish_task(
                 task_id=self.execution.task_id,
