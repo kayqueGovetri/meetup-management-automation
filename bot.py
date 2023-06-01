@@ -14,9 +14,9 @@ class Bot:
         self.execution = self.maestro.get_execution()
         self.parameters = self.maestro.get_task(task_id=self.execution.task_id).parameters
         self.tmp_folder = tempfile.TemporaryDirectory()
-        self.filepath = f"{self.tmp_folder}/execution_bot_linkedin_{self.execution.task_id}.avi"
-        self.filepath = f"{self.tmp_folder}/meetup_management_automation_123.avi"
-        self.screenshot_filepath = f"{self.tmp_folder}/error.png"
+        self.filepath = f"{self.tmp_folder.name}/execution_bot_linkedin_{self.execution.task_id}.avi"
+        self.filepath = f"{self.tmp_folder.name}/meetup_management_automation_123.avi"
+        self.screenshot_filepath = f"{self.tmp_folder.name}/error.png"
         self.bot = self._configure_browser()
 
     def _configure_browser(self) -> WebBot:
