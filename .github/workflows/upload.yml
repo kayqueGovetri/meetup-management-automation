@@ -31,6 +31,7 @@ jobs:
           technology: 'python'
           # Path from the root of the project where the generated .zip/.jar will be.
           botPath: './bot.zip'
+          version: ${{ github.event.release.tag_name }}
         env:
           # These secrets must be configured in your repository.
           LOGIN: ${{ secrets.LOGIN }}
