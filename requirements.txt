@@ -1,0 +1,4 @@
+botcity-maestro-sdk
+botcity-recorder-plugin
+botcity-framework-web
+webdriver-manager

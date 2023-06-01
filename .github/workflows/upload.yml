@@ -1,0 +1,37 @@
+name: Update the latest version of Bot in Maestro.
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  update-latest:
+    name: Update the latest version bot on BotCity Maestro.
+    #  Running the latest version of Ubuntu.
+    runs-on: ubuntu-latest
+    steps:
+      # Checking out the project.
+      - uses: actions/checkout@v3
+      # Implemented executable permission to `.sh`
+      - name: Get permission to build.
+        run: chmod +x build.sh
+      # Execute to build.
+      - name: Execute to build.
+        run: ./build.sh
+      - name: Using a Botcity action.
+        # Using the v1.0.0 version of botcity-action-bots
+        uses: botcity-dev/botcity-action-bots@v1.0.1
+        with:
+          deploy: true
+          release: true
+          # Bot Id in Maestro.
+          botId: 'meetup-management-automation'
+          # Technology utilized in bot
+          technology: 'python'
+          # Path from the root of the project where the generated .zip/.jar will be.
+          botPath: './bot.zip'
+        env:
+          # These secrets must be configured in your repository.
+          LOGIN: ${{ secrets.LOGIN }}
+          SERVER: ${{ secrets.SERVER }}
+          KEY: ${{ secrets.KEY }}
