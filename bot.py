@@ -49,10 +49,10 @@ class Bot:
         status = AutomationTaskFinishStatus.SUCCESS
         try:
             self.create_log()
-            if self.execution.parameters.get("execute_error", "") == "yes":
-                element = self.bot.find_element(selector="/html/body/div[4]/div/div/div/div[1]/div/div[2]/a", by=By.XPATH)
-                if not element:
-                    raise RuntimeError("Could not find the element.")
+            # if self.execution.parameters.get("execute_error", "") == "yes":
+            element = self.bot.find_element(selector="/html/body/div[4]/div/div/div/div[1]/div/div[2]/a", by=By.XPATH)
+            if not element:
+                raise RuntimeError("Could not find the element.")
             self.maestro.new_log_entry(
                 activity_label="meetup-management-automation",
                 values={
