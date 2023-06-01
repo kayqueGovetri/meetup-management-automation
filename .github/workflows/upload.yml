@@ -1,9 +1,10 @@
-name: Update the latest version of Bot in Maestro.
+name: Deploy and Release in from GitHub release
 
 on:
-  push:
-    branches:
-      - main
+  # Capturing the release publishing event.
+  release:
+    types: [ published ]
+
 jobs:
   update-latest:
     name: Update the latest version bot on BotCity Maestro.
