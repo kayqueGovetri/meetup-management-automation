@@ -47,6 +47,7 @@ class Bot:
         message = "Execution took place without technical failures " \
                   "(search failures could be seen in the errors and alerts section.)"
         status = AutomationTaskFinishStatus.SUCCESS
+        recorder.start()
         try:
             self.create_log()
             # if self.execution.parameters.get("execute_error", "") == "yes":
@@ -67,7 +68,7 @@ class Bot:
         except Exception as error:
             message = "Error executing the automation, please check the errors section"
             status = AutomationTaskFinishStatus.FAILED
-            self.bot.get_screenshot(self.screenshot_filepath)
+            self.bot.screenshot(self.screenshot_filepath)
             self.maestro.error(
                 task_id=self.execution.task_id,
                 screenshot=self.screenshot_filepath,
